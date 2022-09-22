@@ -1,0 +1,25 @@
+{
+  "name": "database",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "make:table": "ts-node ./src/handlers/make-table.ts",
+    "make:seed": "ts-node ./src/handlers/make-seed.ts",
+    "migrate": "ts-node ./src/handlers/migrate.ts",
+    "migrate:rollback": "ts-node ./src/handlers/migrate-rollback.ts",
+    "migrate:fresh": "yarn migrate:rollback && yarn migrate",
+    "migrate:seed": "ts-node ./src/seeders/seeders.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.7.18",
+    "@types/pg": "^8.6.5",
+    "dotenv": "^16.0.2",
+    "fs": "^0.0.1-security",
+    "pg": "^8.8.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.3"
+  }
+}
