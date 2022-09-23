@@ -6,13 +6,15 @@ const pathDrop: string = __dirname + '/' + '../drops/'
 try {
   const command: string = process.argv[2]
   const unique = Date.now()
+  const nameFileMigration: string = `${unique}_${command}_migration.sql`
+  const nameFileDrop: string = `${unique}_${command}_drop.sql`
 
-  writeFileSync(pathMigration + `${unique}_${command}_migration.sql`, `CREATE TABLE IF NOT EXISTS ${command} (\n\n);`)
-  writeFileSync(pathDrop + `${unique}_${command}_drop.sql`, `DROP TABLE IF EXISTS ${command};`)
+  writeFileSync(pathMigration + nameFileMigration, `CREATE TABLE IF NOT EXISTS "${command}" (\n\n);`)
+  writeFileSync(pathDrop + nameFileDrop, `DROP TABLE IF EXISTS "${command}";`)
 
   console.log(`\n`)
-  console.log(`${unique}_${command}_migration.sql`)
-  console.log(`${unique}_${command}_drop.sql`)
+  console.log(nameFileMigration)
+  console.log(nameFileDrop)
 
   process.exit(0)
 } catch (err) {

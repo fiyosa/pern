@@ -1,26 +1,26 @@
 import fs from 'fs'
 import db from '../config/db'
 
-const pathMigration: string = __dirname + '/' + '../migrations/'
+const pathSp: string = __dirname + '/' + '../store-procedures/'
 
 ;(async () => {
   const client = await db.connect()
 
   try {
     let check: boolean = true
-    const getFileMigration = await fs.promises.readdir(pathMigration)
+    const getFileSp = await fs.promises.readdir(pathSp)
 
     await client.query('BEGIN')
 
-    for (const filename of getFileMigration) {
-      if (filename.includes('_migration.sql')) {
+    for (const filename of getFileSp) {
+      if (filename.includes('_sp.sql')) {
         try {
-          const query: string = await fs.promises.readFile(pathMigration + `${filename}`, 'utf8')
+          const query: string = await fs.promises.readFile(pathSp + `${filename}`, 'utf8')
           await client.query(query)
         } catch (err: any) {
           check = false
           console.log('\n')
-          console.log(`Create table: ` + filename)
+          console.log(`Create store procedure: ` + filename)
           console.log(err.message)
           break
         }
