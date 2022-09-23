@@ -5,9 +5,11 @@
   "scripts": {
     "make:table": "ts-node ./src/handlers/make-table.ts",
     "make:seed": "ts-node ./src/handlers/make-seed.ts",
+    "make:sp": "ts-node ./src/handlers/make-sp.ts",
     "migrate": "ts-node ./src/handlers/migrate.ts",
     "migrate:rollback": "ts-node ./src/handlers/migrate-rollback.ts",
-    "migrate:fresh": "yarn migrate:rollback && yarn migrate",
+    "migrate:fresh": "ts-node ./src/handlers/migrate-fresh.ts",
+    "migrate:sp": "ts-node ./src/handlers/migrate-sp.ts",
     "migrate:seed": "ts-node ./src/seeders/seeders.ts"
   },
   "keywords": [],
