@@ -50,7 +50,7 @@ const pathDrop: string = __dirname + '/' + '../drops/'
       await client.query('ROLLBACK')
     }
   } catch (err: any) {
-    console.log(err)
+    console.log(err.message)
     await client.query('ROLLBACK')
   } finally {
     client.release()

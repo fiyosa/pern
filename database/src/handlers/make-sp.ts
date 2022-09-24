@@ -15,7 +15,7 @@ try {
   console.log(nameFile)
 
   process.exit(0)
-} catch (err) {
-  console.log(err)
+} catch (err: any) {
+  console.log(err.message)
   process.exit(1)
 }

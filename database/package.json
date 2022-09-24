@@ -10,12 +10,14 @@
     "migrate:rollback": "ts-node ./src/handlers/migrate-rollback.ts",
     "migrate:fresh": "ts-node ./src/handlers/migrate-fresh.ts",
     "migrate:sp": "ts-node ./src/handlers/migrate-sp.ts",
-    "migrate:seed": "ts-node ./src/seeders/seeders.ts"
+    "migrate:seed": "ts-node ./src/seeders/seeders.ts",
+    "migrate:fresh-seed": "yarn migrate:fresh && yarn migrate:seed"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^7.5.0",
     "@types/node": "^18.7.18",
     "@types/pg": "^8.6.5",
     "dotenv": "^16.0.2",
