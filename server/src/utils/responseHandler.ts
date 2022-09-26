@@ -7,14 +7,14 @@ const capitalizeFirstLetter = (word: string) => {
   return word.charAt(0).toUpperCase() + word.slice(1)
 }
 
-export const sendSuccess = (res: Response, status: number = 200, message: string) => {
+export const sendSuccess = (res: Response, status: number = 200, message: any) => {
   res.status(status).json({
     success: true,
     message,
   })
 }
 
-export const sendResponse = (res: Response, status: number = 200, data: any, message: string, extra: any = null) => {
+export const sendResponse = (res: Response, status: number = 200, data: any, message: any, extra: any = null) => {
   if (extra === null) {
     res.status(status).json({
       success: true,
@@ -31,7 +31,7 @@ export const sendResponse = (res: Response, status: number = 200, data: any, mes
   }
 }
 
-export const sendError = (res: Response, status: number = 200, message: string) => {
+export const sendError = (res: Response, status: number = 200, message: any) => {
   res.status(status).json({
     success: false,
     message,
@@ -41,7 +41,6 @@ export const sendError = (res: Response, status: number = 200, message: string) 
 export const sendValidation = (req: Request, res: Response): boolean => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    sendError
     res.status(400).json({
       success: false,
       validation: errors.array(),

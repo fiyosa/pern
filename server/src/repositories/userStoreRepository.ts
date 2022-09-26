@@ -6,22 +6,29 @@ interface IResult {
   data: any[]
 }
 
-interface IAll {
-  page: number
-  limit: number
+interface ICreate {
+  email: string
+  first_name: string
+  last_name: string
+  password: string
 }
-export const userRepository = async (props: IAll): Promise<IResult> => {
+
+export const userStoreRepository = async (props: ICreate): Promise<IResult> => {
   const client = await db.connect()
+  const time = dateNow()
 
   try {
     await client.query('BEGIN')
 
     const getUsers = await client.query(`
-      SELECT * FROM users
-        ORDER BY "id"
-        OFFSET ${(props.page - 1) * props.limit}
-        LIMIT ${props.limit}      
-    `)
+    INSERT INTO users ("email", "first_name", "last_name", "password", "created_at", "updated_at") VALUES (
+      '${props.email}',
+      '${props.first_name}',
+      '${props.last_name}',
+      '${props.password}',
+      '${time}',
+      '${time}'
+    )`)
 
     await client.query('COMMIT')
     client.release()

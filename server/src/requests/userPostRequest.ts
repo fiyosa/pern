@@ -1,3 +1,8 @@
-import { check } from 'express-validator'
+import { body } from 'express-validator'
 
-export const userPostRequest = [check('email').isEmail(), check('first_name').isString().isLength({ min: 1 })]
+export const userPostRequest = [
+  body('email').isEmail(),
+  body('first_name').isString().isLength({ min: 3 }),
+  body('last_name').isString().isLength({ min: 3 }),
+  body('password').isString().isLength({ min: 5 }),
+]
