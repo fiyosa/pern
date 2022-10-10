@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS "messages" (
   "id" SMALLSERIAL NOT NULL PRIMARY KEY,  
-  "user_id" INT8,
+  "user_id" INT8 NOT NULL,
   "description" VARCHAR(255) NOT NULL,
-  "is_view" BOOLEAN NOT NULL DEFAULT false,
+  "is_view" SMALLINT NOT NULL DEFAULT 0,
   "created_at" TIMESTAMP,
   "updated_at" TIMESTAMP,
   

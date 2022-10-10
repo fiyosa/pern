@@ -11,25 +11,26 @@ interface IUser {
 export const user = async () => {
   const client = await db.connect()
   const time: string = dateNow()
+  const hashPassword = await hash('password')
 
   const users: IUser[] = [
     {
       email: 'superadmin@gmail.com',
       first_name: 'Super',
       last_name: 'Admin',
-      password: hash('password'),
+      password: hashPassword,
     },
     {
       email: 'admin@gmail.com',
       first_name: 'Admin',
       last_name: 'Admin',
-      password: hash('password'),
+      password: hashPassword,
     },
     {
       email: 'user@gmail.com',
       first_name: 'User',
       last_name: 'User',
-      password: hash('password'),
+      password: hashPassword,
     },
   ]
 

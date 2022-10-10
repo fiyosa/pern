@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS "blogs" (
   "id" SMALLSERIAL NOT NULL PRIMARY KEY,  
-  "user_id" INT8,
-  "category_id" INT2,
+  "user_id" INT8 NOT NULL,
+  "category_id" INT2 NOT NULL,
   "title" VARCHAR(100) NOT NULL,
   "excerpt" TEXT NOT NULL,
   "body" TEXT NOT NULL,

@@ -1,23 +1,23 @@
 import { Request, Response } from 'express'
-import { compare, encryptId, sendError, sendException, sendValidation } from '../utils'
+import { compare, dateNow, encryptId, insertQuery, sendError, sendException, sendValidation } from '../utils'
 import jwt from 'jsonwebtoken'
-import dotenv from 'dotenv'
-import { authSetTokenRepository } from '../repositories'
 import db from '../config/db'
+import dotenv from 'dotenv'
 dotenv.config()
 
 export const login = async (req: Request, res: Response) => {
   try {
     if (!sendValidation(req, res)) return
 
+    const today = dateNow()
+    const expired = dateNow(parseInt(eval(process.env.TIMEOUT_REFRESH_TOKEN ?? '')))
+
     const { email, password } = req.body
-    // console.log(email, password)
-    // return res.json({ masuk: 'oke' })
 
     const getUser = await db.query(`
-    SELECT * FROM users
-      WHERE "email" = '${email}'
-  `)
+      SELECT * FROM users
+        WHERE "email" = '${email}'
+    `)
 
     if (getUser.rowCount === 0) return sendError(res, 400, 'Account not found.')
 
@@ -30,23 +30,34 @@ export const login = async (req: Request, res: Response) => {
         user_id: encryptId(user.id),
       },
       process.env.REFRESH_TOKEN_SECRETE as string,
-      { expiresIn: process.env.TIMEOUT_REFRESH_TOKEN ?? '1d' } // 1 day
+      { expiresIn: parseInt(eval(process.env.TIMEOUT_REFRESH_TOKEN ?? '')) || '1d' } // 1 day
     )
 
-    const getResponse = await authSetTokenRepository({
-      id: user.id,
-      refresh_token: refreshToken,
-    })
+    const [authTable, authValue] = insertQuery([
+      {
+        user_id: user.id,
+        revoke: 0,
+        refresh_token: refreshToken,
+        created_at: today,
+        updated_at: today,
+        expired_at: expired,
+      },
+    ])
 
-    if (!getResponse.status) return sendError(res, 400, getResponse.data[0])
+    const getResponse = await db.query(`
+      INSERT INTO auths ${authTable} VALUES ${authValue}
+        RETURNING *
+    `)
+
+    if (getResponse.rowCount === 0) return sendError(res, 400, 'Something went wrong.')
 
     const accessToken = jwt.sign(
       {
         user_id: encryptId(user.id),
-        auth_id: encryptId(getResponse.data[0].id ?? ''),
+        auth_id: encryptId(getResponse.rows[0].id ?? ''),
       },
       process.env.ACCESS_TOKEN_SECRETE as string,
-      { expiresIn: process.env.TIMEOUT_TOKEN ?? '1m' } // 1 minute or 60s
+      { expiresIn: parseInt(eval(process.env.TIMEOUT_TOKEN ?? '')) || '1m' } // 1 minute or 60s
     )
 
     return res
@@ -61,6 +72,6 @@ export const login = async (req: Request, res: Response) => {
         message: 'Token retrieved successfully.',
       })
   } catch (err: any) {
-    return sendError(res, 400, sendException(err.message ?? 'Server error.'))
+    return sendError(res, 500, sendException(err.message ?? 'Server error.'))
   }
 }

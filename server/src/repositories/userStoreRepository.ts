@@ -1,5 +1,5 @@
 import db from '../config/db'
-import { dateNow, sendException } from '../utils'
+import { dateNow, insertQuery, sendException } from '../utils'
 
 interface IResult {
   status: boolean
@@ -20,21 +20,40 @@ export const userStoreRepository = async (props: ICreate): Promise<IResult> => {
   try {
     await client.query('BEGIN')
 
-    const getUsers = await client.query(`
-    INSERT INTO users ("email", "first_name", "last_name", "password", "created_at", "updated_at") VALUES (
-      '${props.email}',
-      '${props.first_name}',
-      '${props.last_name}',
-      '${props.password}',
-      '${time}',
-      '${time}'
-    )`)
+    const [userTable, userValue] = insertQuery([
+      {
+        email: props.email,
+        first_name: props.first_name,
+        last_name: props.last_name,
+        password: props.password,
+        created_at: time,
+        updated_at: time,
+      },
+    ])
+
+    const getUser = await client.query(`
+      INSERT INTO users ${userTable} VALUES ${userValue}
+        RETURNING *
+    `)
+
+    const [uhrTable, uhrValue] = insertQuery([
+      {
+        user_id: getUser.rows[0].id,
+        role_id: 3,
+        created_at: time,
+        updated_at: time,
+      },
+    ])
+
+    await client.query(`
+      INSERT INTO user_has_roles ${uhrTable} VALUES ${uhrValue}
+    `)
 
     await client.query('COMMIT')
     client.release()
     return {
       status: true,
-      data: getUsers.rows,
+      data: [],
     }
   } catch (err: any) {
     await client.query('ROLLBACK')

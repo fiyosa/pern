@@ -1,6 +1,6 @@
 import express, { Application, Request, Response, NextFunction } from 'express'
 import bodyParser from 'body-parser'
-import { dateFormat, dateNow, exceptionHandler, generateId, sendError } from './utils'
+import { dateNow, exceptionHandler, generateId, insertQuery, sendError } from './utils'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
 import db from './config/db'
@@ -17,15 +17,29 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use((_: Request, res: Response, next: NextFunction) => {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-methods', 'GET, POST, PUT, PATCH, DELETE, OPTION')
-  res.setHeader('Access-Control-Allow-Headers', 'Authorization, Accept, Content-Type')
+  res.setHeader('Access-Control-Allow-Headers', 'Authorization, Accept')
   next()
 })
 
 app.get('/api/test', (req: Request, res: Response) => {
+  const [table, value] = insertQuery([
+    {
+      id: 1,
+      data: 'satu',
+      extra: null,
+    },
+    {
+      id: 2,
+      data: 'dua',
+      extra: null,
+    },
+  ])
   return res.status(200).json({
     msg: generateId(100),
     now: dateNow(),
-    tomorrow: dateNow({ addMonth: 1 }),
+    tomorrow: dateNow(parseInt(eval(process.env.TIMEOUT_REFRESH_TOKEN ?? ''))),
+    table,
+    value,
   })
 })
 

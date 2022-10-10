@@ -23,6 +23,6 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
       next()
     })
   } catch (err: any) {
-    return sendError(res, 400, sendException(err.message ?? 'Server error.'))
+    return sendError(res, 500, sendException(err.message ?? 'Server error.'))
   }
 }

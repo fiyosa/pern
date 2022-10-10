@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS "user_has_roles" (
   "id" SERIAL NOT NULL PRIMARY KEY,
-  "user_id" INT8,
-  "role_id" INT2,
+  "user_id" INT8 NOT NULL,
+  "role_id" INT2 NOT NULL,
   "created_at" TIMESTAMP,
   "updated_at" TIMESTAMP,
 

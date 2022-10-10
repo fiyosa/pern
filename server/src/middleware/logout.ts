@@ -31,6 +31,6 @@ export const logout = async (req: Request, res: Response) => {
     return sendSuccess(res, 200, 'Logout successfully.')
   } catch (err: any) {
     await db.query('ROLLBACK')
-    return sendError(res, 400, sendException(err.message ?? 'Server error.'))
+    return sendError(res, 500, sendException(err.message ?? 'Server error.'))
   }
 }

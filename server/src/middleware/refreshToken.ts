@@ -43,6 +43,6 @@ export const refreshToken = async (req: Request, res: Response) => {
       })
     })
   } catch (err: any) {
-    return sendError(res, 400, sendException(err.message ?? 'Server error.'))
+    return sendError(res, 500, sendException(err.message ?? 'Server error.'))
   }
 }

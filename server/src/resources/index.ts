@@ -1,1 +1,5 @@
 export * from './userResource'
+export * from './roleResource'
+export * from './categoryResource'
+export * from './messageResource'
+export * from './blogResource'

@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS "categories" (
   "id" SMALLSERIAL NOT NULL PRIMARY KEY,  
-  "user_id" INT8,
-  "name" VARCHAR(100) NOT NULL,
+  "user_id" INT8 NOT NULL,
+  "name" VARCHAR(100) NOT NULL UNIQUE,
   "description" VARCHAR(255) NOT NULL,
   "created_at" TIMESTAMP,
   "updated_at" TIMESTAMP,
