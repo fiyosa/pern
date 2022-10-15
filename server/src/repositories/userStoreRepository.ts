@@ -14,11 +14,10 @@ interface ICreate {
 }
 
 export const userStoreRepository = async (props: ICreate): Promise<IResult> => {
-  const client = await db.connect()
   const time = dateNow()
 
   try {
-    await client.query('BEGIN')
+    await db.query('BEGIN')
 
     const [userTable, userValue] = insertQuery([
       {
@@ -31,7 +30,7 @@ export const userStoreRepository = async (props: ICreate): Promise<IResult> => {
       },
     ])
 
-    const getUser = await client.query(`
+    const getUser = await db.query(`
       INSERT INTO users ${userTable} VALUES ${userValue}
         RETURNING *
     `)
@@ -45,19 +44,17 @@ export const userStoreRepository = async (props: ICreate): Promise<IResult> => {
       },
     ])
 
-    await client.query(`
+    await db.query(`
       INSERT INTO user_has_roles ${uhrTable} VALUES ${uhrValue}
     `)
 
-    await client.query('COMMIT')
-    client.release()
+    await db.query('COMMIT')
     return {
       status: true,
       data: [],
     }
   } catch (err: any) {
-    await client.query('ROLLBACK')
-    client.release()
+    await db.query('ROLLBACK')
     return {
       status: false,
       data: [sendException(err?.message ?? '')],
