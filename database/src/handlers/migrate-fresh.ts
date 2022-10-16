@@ -5,20 +5,18 @@ const pathMigration: string = __dirname + '/' + '../migrations/'
 const pathDrop: string = __dirname + '/' + '../drops/'
 
 ;(async () => {
-  const client = await db.connect()
-
   try {
     let check: boolean = true
     const getFileDrop = await fs.promises.readdir(pathDrop)
     const getFileMigration = await fs.promises.readdir(pathMigration)
 
-    await client.query('BEGIN')
+    db.query('BEGIN')
 
     for (const filename of getFileDrop.reverse()) {
       if (filename.includes('_drop.sql')) {
         try {
           const query: string = await fs.promises.readFile(pathDrop + `${filename}`, 'utf8')
-          await client.query(query)
+          await db.query(query)
         } catch (err: any) {
           check = false
           console.log('\n')
@@ -33,7 +31,7 @@ const pathDrop: string = __dirname + '/' + '../drops/'
       if (filename.includes('_migration.sql')) {
         try {
           const query: string = await fs.promises.readFile(pathMigration + `${filename}`, 'utf8')
-          await client.query(query)
+          await db.query(query)
         } catch (err: any) {
           check = false
           console.log('\n')
@@ -45,15 +43,13 @@ const pathDrop: string = __dirname + '/' + '../drops/'
     }
 
     if (check) {
-      await client.query('COMMIT')
+      await db.query('COMMIT')
     } else {
-      await client.query('ROLLBACK')
+      await db.query('ROLLBACK')
     }
   } catch (err: any) {
     console.log(err.message)
-    await client.query('ROLLBACK')
-  } finally {
-    client.release()
+    await db.query('ROLLBACK')
   }
 })().catch((err: any) => {
   console.log(err.message)

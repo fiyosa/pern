@@ -1,8 +1,8 @@
-import { Client, Pool } from 'pg'
+import { Pool } from 'pg'
 import dotenv from 'dotenv'
 dotenv.config()
 
-const db = new Client({
+const db = new Pool({
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT as string),
   database: process.env.DB_Name,

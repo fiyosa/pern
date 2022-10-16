@@ -10,6 +10,6 @@ CREATE TABLE IF NOT EXISTS "blogs" (
   "created_at" TIMESTAMP,
   "updated_at" TIMESTAMP,
   
-  CONSTRAINT fk_categories_user_id FOREIGN KEY("user_id") REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT fk_categories_category_id FOREIGN KEY("category_id") REFERENCES categories(id) ON UPDATE CASCADE ON DELETE CASCADE
+  CONSTRAINT fk_blogs_user_id FOREIGN KEY("user_id") REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT fk_blogs_category_id FOREIGN KEY("category_id") REFERENCES categories(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
