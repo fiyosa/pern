@@ -34,7 +34,7 @@ export const refreshToken = async (req: Request, res: Response) => {
           auth_id: encryptId(auth.id ?? ''),
         },
         process.env.ACCESS_TOKEN_SECRETE as string,
-        { expiresIn: process.env.TIMEOUT_TOKEN ?? '1m' } // 1 minute or 60s
+        { expiresIn: parseInt(eval(process.env.TIMEOUT_TOKEN ?? '')) || '1m' } // 1 minute or 60s
       )
       return res.status(200).json({
         status: true,
