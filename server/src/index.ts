@@ -63,5 +63,14 @@ db.connect((err) => {
 
   app.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`)
+    console.log('DB_HOST=', process.env.DB_HOST)
+    console.log('DB_PORT=', process.env.DB_PORT)
+    console.log('DB_NAME=', process.env.DB_NAME)
+    console.log('DB_USER=', process.env.DB_USER)
+    console.log('DB_PASS=', process.env.DB_PASS)
+    console.log('ACCESS_TOKEN_SECRETE=', process.env.ACCESS_TOKEN_SECRETE)
+    console.log('REFRESH_TOKEN_SECRETE=', process.env.REFRESH_TOKEN_SECRETE)
+    console.log('TIMEOUT_TOKEN=', process.env.TIMEOUT_TOKEN)
+    console.log('TIMEOUT_REFRESH_TOKEN=', process.env.TIMEOUT_REFRESH_TOKEN)
   })
 })
