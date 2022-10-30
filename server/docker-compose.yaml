@@ -6,14 +6,15 @@ networks:
 services:
   dev-pern-server:
     build: ./
-    ports: 4000:4000
+    ports:
+      - 4000:4000
     environment:
-      - DB_HOST=postgresql
-      - DB_PORT=5432
-      - DB_NAME=fys-myblogs
-      - DB_USER=postgres
-      - DB_PASS=fiyosa
-      - ACCESS_TOKEN_SECRETE=iRPIC3wbTSfTX3V9x8KGCAjpYj1Lngt1Hh3nWfoTvclvyaeWQ1KXTRZhZMOGhbyvvmMpDEbPrCXFovYiL1G77Nnx5Zl0k3BB741s
-      - REFRESH_TOKEN_SECRETE=Sl9OKs3p2BPfuqSWM2FBNdjJDZx2gQ56c7ifInXFPgAcBPxf8JW6gkn1zZYvFcc2sVhOiDLB6kG8ZBbJeBrnWNadpIbghIIwLxS0
-      - TIMEOUT_TOKEN=1000*60
-      - TIMEOUT_REFRESH_TOKEN=1000*60*60*24
+      DB_HOST: postgresql
+      DB_PORT: 5432
+      DB_NAME: fys-myblogs
+      DB_USER: postgres
+      DB_PASS: fiyosa
+      ACCESS_TOKEN_SECRETE: iRPIC3wbTSfTX3V9x8KGCAjpYj1Lngt1Hh3nWfoTvclvyaeWQ1KXTRZhZMOGhbyvvmMpDEbPrCXFovYiL1G77Nnx5Zl0k3BB741s
+      REFRESH_TOKEN_SECRETE: Sl9OKs3p2BPfuqSWM2FBNdjJDZx2gQ56c7ifInXFPgAcBPxf8JW6gkn1zZYvFcc2sVhOiDLB6kG8ZBbJeBrnWNadpIbghIIwLxS0
+      TIMEOUT_TOKEN: 1000*60
+      TIMEOUT_REFRESH_TOKEN: 1000*60*60*24
