@@ -1,0 +1,8 @@
+{
+  "plugins": ["@typescript-eslint"],
+  "extends": ["react-app", "react-app/jest", "eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "off"
+  }
+}

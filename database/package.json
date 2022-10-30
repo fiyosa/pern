@@ -16,6 +16,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "v14.x.x"
+  },
   "devDependencies": {
     "@faker-js/faker": "^7.5.0",
     "@types/bcrypt": "^5.0.0",
