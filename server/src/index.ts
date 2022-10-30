@@ -1,5 +1,6 @@
 import express, { Application, Request, Response, NextFunction } from 'express'
 import bodyParser from 'body-parser'
+import cors from 'cors'
 import { dateNow, exceptionHandler, generateId, insertQuery, sendError } from './utils'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
@@ -10,14 +11,17 @@ dotenv.config()
 const app: Application = express()
 const PORT: string | number = process.env.PORT || 4000
 
+// app.use('*', cors())
+// app.options('*', cors())
+
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use((_: Request, res: Response, next: NextFunction) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
+  // res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-methods', 'GET, POST, PUT, PATCH, DELETE, OPTION')
-  res.setHeader('Access-Control-Allow-Headers', 'Authorization, Accept')
+  res.setHeader('Access-Control-Allow-Headers', 'Authorization, Accept , Content-Type')
   next()
 })
 
@@ -63,14 +67,14 @@ db.connect((err) => {
 
   app.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`)
-    console.log('DB_HOST=', process.env.DB_HOST)
-    console.log('DB_PORT=', process.env.DB_PORT)
-    console.log('DB_NAME=', process.env.DB_NAME)
-    console.log('DB_USER=', process.env.DB_USER)
-    console.log('DB_PASS=', process.env.DB_PASS)
-    console.log('ACCESS_TOKEN_SECRETE=', process.env.ACCESS_TOKEN_SECRETE)
-    console.log('REFRESH_TOKEN_SECRETE=', process.env.REFRESH_TOKEN_SECRETE)
-    console.log('TIMEOUT_TOKEN=', process.env.TIMEOUT_TOKEN)
-    console.log('TIMEOUT_REFRESH_TOKEN=', process.env.TIMEOUT_REFRESH_TOKEN)
+    // console.log('DB_HOST=', process.env.DB_HOST)
+    // console.log('DB_PORT=', process.env.DB_PORT)
+    // console.log('DB_NAME=', process.env.DB_NAME)
+    // console.log('DB_USER=', process.env.DB_USER)
+    // console.log('DB_PASS=', process.env.DB_PASS)
+    // console.log('ACCESS_TOKEN_SECRETE=', process.env.ACCESS_TOKEN_SECRETE)
+    // console.log('REFRESH_TOKEN_SECRETE=', process.env.REFRESH_TOKEN_SECRETE)
+    // console.log('TIMEOUT_TOKEN=', process.env.TIMEOUT_TOKEN)
+    // console.log('TIMEOUT_REFRESH_TOKEN=', process.env.TIMEOUT_REFRESH_TOKEN)
   })
 })
